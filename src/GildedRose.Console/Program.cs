@@ -31,8 +31,13 @@ namespace GildedRose.Console {
             };
 
             foreach (var item in Items) {
-                ItemHandlers.Add(new ItemHandler(item));
+                ItemHandlers.Add(ItemHandlerFor(item));
             }
+        }
+
+        private ItemHandler ItemHandlerFor(Item item) {
+            if (ItemType.IsConjured(item)) return new ConjuredItemHandler(item);
+            return new ItemHandler(item);
         }
 
         public void UpdateQuality() {

@@ -37,6 +37,7 @@
       <e p="src/GildedRose.Console" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="ConjuredItemHandler.cs" t="Include" />
         <e p="GildedRose.Console.csproj" t="IncludeRecursive" />
         <e p="ItemHandler.cs" t="Include" />
         <e p="ItemType.cs" t="Include" />

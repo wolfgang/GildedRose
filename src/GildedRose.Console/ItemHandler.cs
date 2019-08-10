@@ -16,7 +16,7 @@ namespace GildedRose.Console {
             if (!ItemType.IsSulfuras(item) && item.Quality >= 50) item.Quality = 50;
         }
 
-        public int QualityChange() {
+        public virtual int QualityChange() {
             if (DecreasesInQuality()) return GetQualityDecrease();
             return GetQualityIncrease();
         }
