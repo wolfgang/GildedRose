@@ -1,5 +1,5 @@
 namespace GildedRose.Console {
-    public class ItemType {
+    public static class ItemType {
         public static  bool IsAgedBrie(Item item) {
             return item.Name == "Aged Brie";
         }

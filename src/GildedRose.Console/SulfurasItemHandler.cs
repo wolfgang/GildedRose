@@ -13,5 +13,9 @@ namespace GildedRose.Console {
         protected override int MaxQuality() {
             return 80;
         }
+
+        protected override bool IsForSale() {
+            return false;
+        }
     }
 }

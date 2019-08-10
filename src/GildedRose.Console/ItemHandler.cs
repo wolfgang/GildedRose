@@ -10,6 +10,10 @@ namespace GildedRose.Console {
             ChangeQualityBy(QualityChange());
         }
 
+        public void UpdateSellIn() {
+            if (IsForSale()) item.SellIn -= 1;
+        }
+
         public void UpdateExpiredQuality() {
             if (item.SellIn < 0)
                 ChangeQualityBy(QualityChangeForExpired());
@@ -26,6 +30,10 @@ namespace GildedRose.Console {
 
         protected virtual int MaxQuality() {
             return 50;
+        }
+
+        protected virtual bool IsForSale() {
+            return true;
         }
     }
 }
