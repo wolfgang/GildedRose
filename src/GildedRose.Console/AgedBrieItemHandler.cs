@@ -5,5 +5,9 @@ namespace GildedRose.Console {
         public override int QualityChange() {
             return 1;
         }
+
+        public override int QualityChangeForExpired() {
+            return QualityChange();
+        }
     }
 }
