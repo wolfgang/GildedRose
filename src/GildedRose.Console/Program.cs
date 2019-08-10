@@ -1,11 +1,23 @@
 ﻿using System.Collections.Generic;
 
 namespace GildedRose.Console {
+    internal interface IWriter {
+        void WriteLine(string line);
+    }
+    
+    internal class ConsoleWriter : IWriter {
+        public void WriteLine(string line) {
+            System.Console.WriteLine(line);
+        }
+    }
+    
     internal class Program {
         private IList<Item> Items;
+        private IWriter writer;
 
         private static void Main(string[] args) {
             var app = new Program() {
+                writer = new ConsoleWriter(),
                 Items = new List<Item> {
                     new Item{Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
                     new Item{Name = "Aged Brie", SellIn = 2, Quality = 0},
@@ -27,9 +39,9 @@ namespace GildedRose.Console {
         }
 
         public void dumpItems() {
-            System.Console.WriteLine("Name, Quality, SellIn");
+            writer.WriteLine("Name, Quality, SellIn");
             foreach (var item in Items) {
-                System.Console.WriteLine($"{item.Name}, {item.Quality}, {item.SellIn}");
+                writer.WriteLine($"{item.Name}, {item.Quality}, {item.SellIn}");
             }
         }
         
