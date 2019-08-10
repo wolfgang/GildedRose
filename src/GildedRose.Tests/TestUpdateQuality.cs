@@ -5,13 +5,13 @@ using NUnit.Framework;
 namespace GildedRose.Tests {
     public class TestUpdateQuality {
         [Test]
-        public void ItemsAfterOnDay0() {
+        public void UpdateQualityFor30Days() {
             var writer = new ToStringsWriter();
             var app = Program.Default(writer);
 
             for (int day = 0; day < 30; ++day) {
                 app.UpdateQuality();
-                app.dumpItems(day);
+                app.DumpItems(day);
                 
             } 
 
@@ -23,7 +23,7 @@ namespace GildedRose.Tests {
                 "Elixir of the Mongoose, 6, 4",
                 "Sulfuras, Hand of Ragnaros, 80, 0",
                 "Backstage passes to a TAFKAL80ETC concert, 21, 14",
-                "Conjured Mana Cake, 5, 2",
+                "Conjured Mana Cake, 4, 2",
                 "--- day 1 ---",
                 "Name, Quality, SellIn",
                 "+5 Dexterity Vest, 18, 8",
@@ -31,7 +31,7 @@ namespace GildedRose.Tests {
                 "Elixir of the Mongoose, 5, 3",
                 "Sulfuras, Hand of Ragnaros, 80, 0",
                 "Backstage passes to a TAFKAL80ETC concert, 22, 13",
-                "Conjured Mana Cake, 4, 1",
+                "Conjured Mana Cake, 2, 1",
                 "--- day 2 ---",
                 "Name, Quality, SellIn",
                 "+5 Dexterity Vest, 17, 7",
@@ -39,7 +39,7 @@ namespace GildedRose.Tests {
                 "Elixir of the Mongoose, 4, 2",
                 "Sulfuras, Hand of Ragnaros, 80, 0",
                 "Backstage passes to a TAFKAL80ETC concert, 23, 12",
-                "Conjured Mana Cake, 3, 0",
+                "Conjured Mana Cake, 0, 0",
                 "--- day 3 ---",
                 "Name, Quality, SellIn",
                 "+5 Dexterity Vest, 16, 6",
@@ -47,7 +47,7 @@ namespace GildedRose.Tests {
                 "Elixir of the Mongoose, 3, 1",
                 "Sulfuras, Hand of Ragnaros, 80, 0",
                 "Backstage passes to a TAFKAL80ETC concert, 24, 11",
-                "Conjured Mana Cake, 1, -1",
+                "Conjured Mana Cake, 0, -1",
                 "--- day 4 ---",
                 "Name, Quality, SellIn",
                 "+5 Dexterity Vest, 15, 5",

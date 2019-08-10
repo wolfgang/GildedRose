@@ -19,6 +19,7 @@ namespace GildedRose.Console {
         }
 
         private static int GetQualityDecrease(Item item) {
+            if (IsConjured(item)) return -2;
             return -1;
         }
 
@@ -58,6 +59,10 @@ namespace GildedRose.Console {
 
         public static bool isSulfuras(Item item) {
             return item.Name.StartsWith("Sulfuras");
+        }
+
+        private static bool IsConjured(Item item) {
+            return item.Name.StartsWith("Conjured");
         }
     }
 }

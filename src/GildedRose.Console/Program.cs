@@ -9,13 +9,14 @@ namespace GildedRose.Console {
             var app = Default(new ConsoleWriter());
             for (int day = 0; day < 30; ++day) {
                 app.UpdateQuality();
-                app.dumpItems(day);
+                app.DumpItems(day);
             }
         }
 
         public void UpdateQuality() {
             foreach (var item in Items) {
                 item.Quality += ItemRules.GetPreSaleQualityChange(item);
+                if (item.Quality < 0) item.Quality = 0; 
                 
                 if (!ItemRules.isSulfuras(item)) {
                     item.SellIn -= 1;
@@ -23,6 +24,7 @@ namespace GildedRose.Console {
 
                 if (item.SellIn < 0) {
                     item.Quality += ItemRules.GetPostSaleQualityChange(item);
+                    if (item.Quality < 0) item.Quality = 0; 
                 }
             }
         }
@@ -45,7 +47,7 @@ namespace GildedRose.Console {
             };
         }
 
-        public void dumpItems(int day) {
+        public void DumpItems(int day) {
             writer.WriteLine($"--- day {day} ---");
             writer.WriteLine("Name, Quality, SellIn");
             foreach (var item in Items) {
