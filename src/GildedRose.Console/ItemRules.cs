@@ -26,6 +26,24 @@ namespace GildedRose.Console {
             return increase;
         }
 
+        public static int GetPostSaleQualityChange(Item item) {
+            int change = 0;
+            if (!isAgedBrie(item)) {
+                if (item.Quality > 0 && !ItemRules.isBackstagePass(item) &&  !ItemRules.isSulfuras(item)) {
+                    change = -1;
+                }
+                else {
+                    change = -item.Quality;
+                }
+            }
+            else if (item.Quality < 50) {
+                change = 1;
+            }
+
+            return change;
+
+        }
+
         public static bool isAgedBrie(Item item) {
             return item.Name == "Aged Brie";
         }

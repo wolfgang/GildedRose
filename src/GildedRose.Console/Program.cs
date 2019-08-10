@@ -27,17 +27,7 @@ namespace GildedRose.Console {
                 }
 
                 if (item.SellIn < 0) {
-                    if (!ItemRules.isAgedBrie(item)) {
-                        if (!ItemRules.isBackstagePass(item) && item.Quality > 0 && !ItemRules.isSulfuras(item)) {
-                            item.Quality -= 1;
-                        }
-                        else {
-                            item.Quality = 0;
-                        }
-                    }
-                    else if (item.Quality < 50) {
-                        item.Quality += 1;
-                    }
+                    item.Quality += ItemRules.GetPostSaleQualityChange(item);
                 }
             }
         }
