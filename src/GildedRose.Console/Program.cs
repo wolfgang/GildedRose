@@ -3,6 +3,7 @@
 namespace GildedRose.Console {
     public class Program {
         private IList<Item> Items;
+        private List<ItemHandler> ItemHandlers;
         private IWriter writer;
 
         private static void Main(string[] args) {
@@ -13,36 +14,43 @@ namespace GildedRose.Console {
             }
         }
 
-        public void UpdateQuality() {
+        private Program(IWriter writer) {
+            this.writer = writer;
+            ItemHandlers = new List<ItemHandler>();
+            Items = new List<Item>{
+                new Item{Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
+                new Item{Name = "Aged Brie", SellIn = 2, Quality = 0},
+                new Item{Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
+                new Item{Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
+                new Item{
+                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    SellIn = 15,
+                    Quality = 20
+                },
+                new Item{Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
+            };
+
             foreach (var item in Items) {
-                ItemRules.ChangeQualityBy(ItemRules.QualityChangeFor(item), item);
-                
-                if (!ItemRules.IsSulfuras(item)) {
-                    item.SellIn -= 1;
+                ItemHandlers.Add(new ItemHandler(item));
+            }
+        }
+
+        public void UpdateQuality() {
+            foreach (var handler in ItemHandlers) {
+                handler.ChangeQualityBy(handler.QualityChange());
+
+                if (!handler.IsSulfuras()) {
+                    handler.item.SellIn -= 1;
                 }
 
-                if (item.SellIn < 0) {
-                    ItemRules.ChangeQualityBy(ItemRules.QualityChangeForExpired(item), item);
+                if (handler.item.SellIn < 0) {
+                    handler.ChangeQualityBy(handler.QualityChangeForExpired());
                 }
             }
         }
 
         public static Program Default(IWriter writer) {
-            return new Program(){
-                writer = writer,
-                Items = new List<Item>{
-                    new Item{Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
-                    new Item{Name = "Aged Brie", SellIn = 2, Quality = 0},
-                    new Item{Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
-                    new Item{Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
-                    new Item{
-                        Name = "Backstage passes to a TAFKAL80ETC concert",
-                        SellIn = 15,
-                        Quality = 20
-                    },
-                    new Item{Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
-                }
-            };
+            return new Program(writer);
         }
 
         public void DumpItems(int day) {
