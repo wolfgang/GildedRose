@@ -35,8 +35,9 @@ namespace GildedRose.Console {
             }
         }
 
-        private ItemHandler ItemHandlerFor(Item item) {
+        private static ItemHandler ItemHandlerFor(Item item) {
             if (ItemType.IsConjured(item)) return new ConjuredItemHandler(item);
+            if (ItemType.IsSulfuras(item)) return new SulfurasItemHandler(item);
             return new ItemHandler(item);
         }
 

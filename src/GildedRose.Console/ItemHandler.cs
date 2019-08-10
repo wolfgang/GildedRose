@@ -29,12 +29,11 @@ namespace GildedRose.Console {
 
         private bool DecreasesInQuality() {
             return !ItemType.IsAgedBrie(item) &&
-                   !ItemType.IsBackstagePass(item) &&
-                   !ItemType.IsSulfuras(item);
+                   !ItemType.IsBackstagePass(item);
+
         }
 
         private int GetQualityDecrease() {
-            if (ItemType.IsConjured(item)) return -2;
             return -1;
         }
 
