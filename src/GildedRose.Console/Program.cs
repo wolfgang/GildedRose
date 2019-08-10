@@ -45,9 +45,7 @@ namespace GildedRose.Console {
 
         public void UpdateQuality() {
             foreach (var handler in ItemHandlers) {
-                handler.UpdateQuality();
-                handler.UpdateSellIn();
-                handler.UpdateExpiredQuality();
+                handler.Update();
             }
         }
 

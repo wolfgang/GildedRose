@@ -6,15 +6,17 @@ namespace GildedRose.Console {
             this.item = item;
         }
 
-        public void UpdateQuality() {
+        public void Update() {
+            UpdateQuality();
+            if (IsForSale()) item.SellIn -= 1;
+            UpdateExpiredQuality();
+        }
+
+        private void UpdateQuality() {
             ChangeQualityBy(QualityChange());
         }
 
-        public void UpdateSellIn() {
-            if (IsForSale()) item.SellIn -= 1;
-        }
-
-        public void UpdateExpiredQuality() {
+        private void UpdateExpiredQuality() {
             if (item.SellIn < 0)
                 ChangeQualityBy(QualityChangeWhenExpired());
         }
