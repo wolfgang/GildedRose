@@ -44,15 +44,11 @@ namespace GildedRose.Console {
 
                 if (item.SellIn < 0) {
                     if (!ItemRules.isAgedBrie(item)) {
-                        if (!ItemRules.isBackstagePass(item)) {
-                            if (item.Quality > 0) {
-                                if (!ItemRules.isSulfuras(item)) {
-                                    item.Quality -= 1;
-                                }
-                            }
+                        if (!ItemRules.isBackstagePass(item) && item.Quality > 0 && !ItemRules.isSulfuras(item)) {
+                            item.Quality -= 1;
                         }
                         else {
-                            item.Quality -= item.Quality;
+                            item.Quality = 0;
                         }
                     }
                     else {
