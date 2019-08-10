@@ -1,41 +1,20 @@
 ﻿using System.Collections.Generic;
 
 namespace GildedRose.Console {
-    internal interface IWriter {
-        void WriteLine(string line);
-    }
-    
     internal class ConsoleWriter : IWriter {
         public void WriteLine(string line) {
             System.Console.WriteLine(line);
         }
     }
-    
-    internal class Program {
+
+    public class Program {
         private IList<Item> Items;
         private IWriter writer;
 
         private static void Main(string[] args) {
-            var app = new Program() {
-                writer = new ConsoleWriter(),
-                Items = new List<Item> {
-                    new Item{Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
-                    new Item{Name = "Aged Brie", SellIn = 2, Quality = 0},
-                    new Item{Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
-                    new Item{Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
-                    new Item {
-                        Name = "Backstage passes to a TAFKAL80ETC concert",
-                        SellIn = 15,
-                        Quality = 20
-                    },
-                    new Item{Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
-                }
-            };
-
+            var app = Default(new ConsoleWriter());
             app.UpdateQuality();
-
             app.dumpItems();
-
         }
 
         public void dumpItems() {
@@ -44,8 +23,7 @@ namespace GildedRose.Console {
                 writer.WriteLine($"{item.Name}, {item.Quality}, {item.SellIn}");
             }
         }
-        
-        
+
 
         public void UpdateQuality() {
             for (var i = 0; i < Items.Count; i++) {
@@ -100,6 +78,24 @@ namespace GildedRose.Console {
                     }
                 }
             }
+        }
+
+        public static Program Default(IWriter writer) {
+            return new Program(){
+                writer = writer,
+                Items = new List<Item>{
+                    new Item{Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
+                    new Item{Name = "Aged Brie", SellIn = 2, Quality = 0},
+                    new Item{Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
+                    new Item{Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
+                    new Item{
+                        Name = "Backstage passes to a TAFKAL80ETC concert",
+                        SellIn = 15,
+                        Quality = 20
+                    },
+                    new Item{Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
+                }
+            };
         }
     }
 
