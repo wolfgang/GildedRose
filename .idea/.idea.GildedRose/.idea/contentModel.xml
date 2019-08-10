@@ -39,6 +39,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="GildedRose.Console.csproj" t="IncludeRecursive" />
         <e p="ItemHandler.cs" t="Include" />
+        <e p="ItemType.cs" t="Include" />
         <e p="IWriter.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />

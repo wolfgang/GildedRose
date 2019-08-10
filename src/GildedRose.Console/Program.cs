@@ -39,7 +39,7 @@ namespace GildedRose.Console {
             foreach (var handler in ItemHandlers) {
                 handler.ChangeQualityBy(handler.QualityChange());
 
-                if (!handler.IsSulfuras()) {
+                if (!ItemType.IsSulfuras(handler.item)) {
                     handler.item.SellIn -= 1;
                 }
 
