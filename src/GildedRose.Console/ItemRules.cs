@@ -2,6 +2,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace GildedRose.Console {
     internal static class ItemRules {
+        private const int MIN_QUALITY = 0;
+        private const int MAX_QUALITY = 50; 
+            
+        
         public static int GetPreSaleQualityChange(Item item) {
             if (decreasesInQuality(item)) return -1;
             return GetQualityIncrease(item);
@@ -11,12 +15,12 @@ namespace GildedRose.Console {
             return !isAgedBrie(item) &&
                    !isBackstagePass(item) &&
                    !isSulfuras(item) &&
-                   item.Quality > 0;
+                   item.Quality > MIN_QUALITY;
         }
 
         private static int GetQualityIncrease(Item item) {
             var increase = 0;
-            if (item.Quality < 50) {
+            if (item.Quality < MAX_QUALITY) {
                 increase += 1;
 
                 if (isBackstagePass(item)) {
@@ -35,7 +39,7 @@ namespace GildedRose.Console {
 
         public static int GetPostSaleQualityChange(Item item) {
             if (isBackstagePass(item)) return -item.Quality;
-            if (item.Quality == 0 || item.Quality >= 50) return 0;
+            if (item.Quality == MIN_QUALITY || item.Quality >= MAX_QUALITY) return 0;
             if (isAgedBrie(item)) return 1;
             return -1;
         }
