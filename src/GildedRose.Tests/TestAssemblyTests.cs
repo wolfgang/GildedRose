@@ -1,13 +1,10 @@
 using Xunit;
 
-namespace GildedRose.Tests
-{
-    public class TestAssemblyTests
-    {
+namespace GildedRose.Tests {
+    public class TestAssemblyTests {
         [Fact]
-        public void TestTheTruth()
-        {
-            Assert.True(true);
+        public void Nothing() {
+            Assert.Equal(1, 1);
         }
     }
 }
