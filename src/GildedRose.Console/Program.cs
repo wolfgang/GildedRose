@@ -13,11 +13,15 @@ namespace GildedRose.Console {
 
         private static void Main(string[] args) {
             var app = Default(new ConsoleWriter());
-            app.UpdateQuality();
-            app.dumpItems();
+            for (int day = 0; day < 30; ++day) {
+                app.UpdateQuality();
+                app.dumpItems(day);
+                
+            } 
         }
 
-        public void dumpItems() {
+        public void dumpItems(int day) {
+            writer.WriteLine($"--- day {day} ---");
             writer.WriteLine("Name, Quality, SellIn");
             foreach (var item in Items) {
                 writer.WriteLine($"{item.Name}, {item.Quality}, {item.SellIn}");

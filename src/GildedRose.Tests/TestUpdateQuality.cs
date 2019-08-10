@@ -10,9 +10,10 @@ namespace GildedRose.Tests {
             var program = Program.Default(writer);
             
             program.UpdateQuality();
-            program.dumpItems();
+            program.dumpItems(0);
 
             writer.AssertLines(new List<string>{
+                "--- day 0 ---",
                 "Name, Quality, SellIn",
                 "+5 Dexterity Vest, 19, 9",
                 "Aged Brie, 1, 1",
