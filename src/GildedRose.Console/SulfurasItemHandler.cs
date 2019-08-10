@@ -2,11 +2,11 @@ namespace GildedRose.Console {
     public class SulfurasItemHandler :ItemHandler{
         public SulfurasItemHandler(Item item) : base(item) { }
 
-        public override int QualityChange() {
+        protected override int QualityChange() {
             return 0;
         }
 
-        public override int QualityChangeForExpired() {
+        protected override int QualityChangeForExpired() {
             return 0;
         }
 

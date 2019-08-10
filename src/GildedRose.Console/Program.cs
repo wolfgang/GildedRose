@@ -45,15 +45,14 @@ namespace GildedRose.Console {
 
         public void UpdateQuality() {
             foreach (var handler in ItemHandlers) {
-                handler.ChangeQualityBy(handler.QualityChange());
+                handler.UpdateQuality();
 
                 if (!ItemType.IsSulfuras(handler.item)) {
                     handler.item.SellIn -= 1;
                 }
+                
+                handler.UpdateExpiredQuality();
 
-                if (handler.item.SellIn < 0) {
-                    handler.ChangeQualityBy(handler.QualityChangeForExpired());
-                }
             }
         }
 
