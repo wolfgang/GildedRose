@@ -53,7 +53,7 @@
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
         </e>
-        <e p="TestAssemblyTests.cs" t="Include" />
+        <e p="TestUpdateQuality.cs" t="Include" />
       </e>
       <e p="tasks.ps1" t="Include" />
     </e>
