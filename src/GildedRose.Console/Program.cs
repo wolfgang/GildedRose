@@ -17,7 +17,7 @@ namespace GildedRose.Console {
             foreach (var item in Items) {
                 ItemRules.ChangeQualityBy(ItemRules.GetPreSaleQualityChange(item), item);
                 
-                if (!ItemRules.isSulfuras(item)) {
+                if (!ItemRules.IsSulfuras(item)) {
                     item.SellIn -= 1;
                 }
 

@@ -3,24 +3,24 @@ using System.Runtime.InteropServices.WindowsRuntime;
 namespace GildedRose.Console {
     internal static class ItemRules {
         private const int MIN_QUALITY = 0;
-        private const int MAX_QUALITY = 50; 
-            
-        
-        public static int GetPreSaleQualityChange(Item item) {
-            if (decreasesInQuality(item)) return GetQualityDecrease(item);
-            return GetQualityIncrease(item);
-        }
+        private const int MAX_QUALITY = 50;
 
-        public static int GetPostSaleQualityChange(Item item) {
-            if (isBackstagePass(item)) return -item.Quality;
-            if (item.Quality == MIN_QUALITY || item.Quality >= MAX_QUALITY) return 0;
-            if (isAgedBrie(item)) return 1;
-            return GetQualityDecrease(item);
-        }
 
         public static void ChangeQualityBy(int value, Item item) {
             item.Quality += value;
             if (item.Quality < 0) item.Quality = 0;
+        }
+
+        public static int GetPreSaleQualityChange(Item item) {
+            if (DecreasesInQuality(item)) return GetQualityDecrease(item);
+            return GetQualityIncrease(item);
+        }
+
+        public static int GetPostSaleQualityChange(Item item) {
+            if (IsBackstagePass(item)) return -item.Quality;
+            if (item.Quality == MIN_QUALITY || item.Quality >= MAX_QUALITY) return 0;
+            if (IsAgedBrie(item)) return 1;
+            return GetQualityDecrease(item);
         }
 
         private static int GetQualityDecrease(Item item) {
@@ -28,10 +28,10 @@ namespace GildedRose.Console {
             return -1;
         }
 
-        private static bool decreasesInQuality(Item item) {
-            return !isAgedBrie(item) &&
-                   !isBackstagePass(item) &&
-                   !isSulfuras(item) &&
+        private static bool DecreasesInQuality(Item item) {
+            return !IsAgedBrie(item) &&
+                   !IsBackstagePass(item) &&
+                   !IsSulfuras(item) &&
                    item.Quality > MIN_QUALITY;
         }
 
@@ -40,7 +40,7 @@ namespace GildedRose.Console {
             if (item.Quality < MAX_QUALITY) {
                 increase += 1;
 
-                if (isBackstagePass(item)) {
+                if (IsBackstagePass(item)) {
                     if (item.SellIn < 11) {
                         increase += 1;
                     }
@@ -54,15 +54,15 @@ namespace GildedRose.Console {
             return increase;
         }
 
-        private static bool isAgedBrie(Item item) {
+        private static bool IsAgedBrie(Item item) {
             return item.Name == "Aged Brie";
         }
 
-        private static bool isBackstagePass(Item item) {
+        private static bool IsBackstagePass(Item item) {
             return item.Name.StartsWith("Backstage passes");
         }
 
-        public static bool isSulfuras(Item item) {
+        public static bool IsSulfuras(Item item) {
             return item.Name.StartsWith("Sulfuras");
         }
 
