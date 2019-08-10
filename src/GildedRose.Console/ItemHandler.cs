@@ -28,8 +28,7 @@ namespace GildedRose.Console {
         }
 
         private bool DecreasesInQuality() {
-            return !ItemType.IsAgedBrie(item) &&
-                   !ItemType.IsBackstagePass(item);
+            return !ItemType.IsBackstagePass(item);
 
         }
 

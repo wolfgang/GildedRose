@@ -38,6 +38,7 @@ namespace GildedRose.Console {
         private static ItemHandler ItemHandlerFor(Item item) {
             if (ItemType.IsConjured(item)) return new ConjuredItemHandler(item);
             if (ItemType.IsSulfuras(item)) return new SulfurasItemHandler(item);
+            if (ItemType.IsAgedBrie(item)) return new AgedBrieItemHandler(item);
             return new ItemHandler(item);
         }
 

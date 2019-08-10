@@ -35,6 +35,7 @@
       <e p="README.md" t="Include" />
       <e p="Solution Items" t="Include" />
       <e p="src/GildedRose.Console" t="IncludeRecursive">
+        <e p="AgedBrieItemHandler.cs" t="Include" />
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="ConjuredItemHandler.cs" t="Include" />
