@@ -19,19 +19,7 @@ namespace GildedRose.Console {
                     item.Quality -= 1;
                 }
                 else {
-                    if (item.Quality < 50) {
-                        item.Quality += 1;
-
-                        if (ItemRules.isBackstagePass(item)) {
-                            if (item.SellIn < 11) {
-                                ItemRules.IncreaseQuality(item);
-                            }
-
-                            if (item.SellIn < 6) {
-                                ItemRules.IncreaseQuality(item);
-                            }
-                        }
-                    }
+                    item.Quality += ItemRules.GetQualityIncrease(item);
                 }
 
                 if (!ItemRules.isSulfuras(item)) {
@@ -47,8 +35,8 @@ namespace GildedRose.Console {
                             item.Quality = 0;
                         }
                     }
-                    else {
-                        ItemRules.IncreaseQuality(item);
+                    else if (item.Quality < 50) {
+                        item.Quality += 1;
                     }
                 }
             }

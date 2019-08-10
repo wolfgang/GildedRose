@@ -7,10 +7,23 @@ namespace GildedRose.Console {
                    item.Quality > 0;
         }
 
-        public static void IncreaseQuality(Item item) {
+        public static int GetQualityIncrease(Item item) {
+            var increase = 0;
             if (item.Quality < 50) {
-                item.Quality += 1;
+                increase += 1;
+
+                if (isBackstagePass(item)) {
+                    if (item.SellIn < 11) {
+                        increase += 1;
+                    }
+
+                    if (item.SellIn < 6) {
+                        increase += 1;
+                    }
+                }
             }
+
+            return increase;
         }
 
         public static bool isAgedBrie(Item item) {
