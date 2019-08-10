@@ -22,7 +22,7 @@ namespace GildedRose.Console {
                     if (item.Quality < 50) {
                         item.Quality += 1;
 
-                        if (item.Name == "Backstage passes to a TAFKAL80ETC concert") {
+                        if (ItemRules.isBackstagePass(item)) {
                             if (item.SellIn < 11) {
                                 if (item.Quality < 50) {
                                     item.Quality += 1;
@@ -38,15 +38,15 @@ namespace GildedRose.Console {
                     }
                 }
 
-                if (item.Name != "Sulfuras, Hand of Ragnaros") {
+                if (!ItemRules.isSulfuras(item)) {
                     item.SellIn -= 1;
                 }
 
                 if (item.SellIn < 0) {
-                    if (item.Name != "Aged Brie") {
-                        if (item.Name != "Backstage passes to a TAFKAL80ETC concert") {
+                    if (!ItemRules.isAgedBrie(item)) {
+                        if (!ItemRules.isBackstagePass(item)) {
                             if (item.Quality > 0) {
-                                if (item.Name != "Sulfuras, Hand of Ragnaros") {
+                                if (!ItemRules.isSulfuras(item)) {
                                     item.Quality -= 1;
                                 }
                             }
