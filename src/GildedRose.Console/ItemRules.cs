@@ -23,11 +23,6 @@ namespace GildedRose.Console {
             return GetQualityDecrease(item);
         }
 
-        private static int GetQualityDecrease(Item item) {
-            if (IsConjured(item)) return -2;
-            return -1;
-        }
-
         private static bool DecreasesInQuality(Item item) {
             return !IsAgedBrie(item) &&
                    !IsBackstagePass(item) &&
@@ -35,23 +30,15 @@ namespace GildedRose.Console {
                    item.Quality > MIN_QUALITY;
         }
 
+        private static int GetQualityDecrease(Item item) {
+            if (IsConjured(item)) return -2;
+            return -1;
+        }
+
         private static int GetQualityIncrease(Item item) {
-            var increase = 0;
-            if (item.Quality < MAX_QUALITY) {
-                increase += 1;
-
-                if (IsBackstagePass(item)) {
-                    if (item.SellIn < 11) {
-                        increase += 1;
-                    }
-
-                    if (item.SellIn < 6) {
-                        increase += 1;
-                    }
-                }
-            }
-
-            return increase;
+            if (item.Quality >= MAX_QUALITY) return 0;
+            if (!IsBackstagePass(item) || item.SellIn >= 11) return 1;
+            return item.SellIn < 6 ? 3 : 2;
         }
 
         private static bool IsAgedBrie(Item item) {
