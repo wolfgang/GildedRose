@@ -3,7 +3,7 @@ namespace GildedRose.Console {
         private const int MIN_QUALITY = 0;
         private const int MAX_QUALITY = 50;
 
-        public Item item;
+        public readonly Item item;
 
         public ItemHandler(Item item) {
             this.item = item;
@@ -11,8 +11,9 @@ namespace GildedRose.Console {
 
 
         public  void ChangeQualityBy(int value) {
-            this.item.Quality += value;
-            if (this.item.Quality < 0) this.item.Quality = 0;
+            item.Quality += value;
+            if (item.Quality < 0) item.Quality = 0;
+            if (!IsSulfuras() && item.Quality >= 50) item.Quality = 50;
         }
 
         public int QualityChange() {
@@ -21,8 +22,7 @@ namespace GildedRose.Console {
         }
 
         public int QualityChangeForExpired() {
-            if (IsBackstagePass()) return -this.item.Quality;
-            if (this.item.Quality == MIN_QUALITY || this.item.Quality >= MAX_QUALITY) return 0;
+            if (IsBackstagePass()) return -item.Quality;
             if (IsAgedBrie()) return 1;
             return GetQualityDecrease();
         }
@@ -30,8 +30,7 @@ namespace GildedRose.Console {
         private bool DecreasesInQuality() {
             return !IsAgedBrie() &&
                    !IsBackstagePass() &&
-                   !IsSulfuras() &&
-                   item.Quality > MIN_QUALITY;
+                   !IsSulfuras();
         }
 
         private int GetQualityDecrease() {
@@ -40,7 +39,7 @@ namespace GildedRose.Console {
         }
 
         private  int GetQualityIncrease() {
-            if (item.Quality >= MAX_QUALITY) return 0;
+            if (IsSulfuras()) return 0;
             if (!IsBackstagePass() || item.SellIn >= 11) return 1;
             return item.SellIn < 6 ? 3 : 2;
         }
