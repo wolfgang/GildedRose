@@ -18,6 +18,11 @@ namespace GildedRose.Console {
             return GetQualityDecrease(item);
         }
 
+        public static void ChangeQualityBy(int value, Item item) {
+            item.Quality += value;
+            if (item.Quality < 0) item.Quality = 0;
+        }
+
         private static int GetQualityDecrease(Item item) {
             if (IsConjured(item)) return -2;
             return -1;
