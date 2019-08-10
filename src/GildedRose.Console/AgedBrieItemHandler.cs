@@ -6,7 +6,7 @@ namespace GildedRose.Console {
             return 1;
         }
 
-        protected override int QualityChangeForExpired() {
+        protected override int QualityChangeWhenExpired() {
             return QualityChange();
         }
     }

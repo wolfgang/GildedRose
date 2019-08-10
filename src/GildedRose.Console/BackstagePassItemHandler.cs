@@ -7,7 +7,7 @@ namespace GildedRose.Console {
             return item.SellIn < 6 ? 3 : 2;
         }
 
-        protected override int QualityChangeForExpired() {
+        protected override int QualityChangeWhenExpired() {
             return -item.Quality;
         }
     }

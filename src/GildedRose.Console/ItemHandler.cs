@@ -1,6 +1,6 @@
 namespace GildedRose.Console {
     public abstract class ItemHandler {
-        public readonly Item item;
+        protected readonly Item item;
 
         protected ItemHandler(Item item) {
             this.item = item;
@@ -16,7 +16,7 @@ namespace GildedRose.Console {
 
         public void UpdateExpiredQuality() {
             if (item.SellIn < 0)
-                ChangeQualityBy(QualityChangeForExpired());
+                ChangeQualityBy(QualityChangeWhenExpired());
         }
 
         private void ChangeQualityBy(int value) {
@@ -26,7 +26,7 @@ namespace GildedRose.Console {
         }
 
         protected abstract int QualityChange();
-        protected abstract int QualityChangeForExpired();
+        protected abstract int QualityChangeWhenExpired();
 
         protected virtual int MaxQuality() {
             return 50;
