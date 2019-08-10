@@ -5,8 +5,6 @@ namespace GildedRose.Console {
         private IList<Item> Items;
 
         private static void Main(string[] args) {
-            System.Console.WriteLine("OMGHAI!");
-
             var app = new Program() {
                 Items = new List<Item> {
                     new Item{Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
@@ -24,8 +22,18 @@ namespace GildedRose.Console {
 
             app.UpdateQuality();
 
-            System.Console.ReadKey();
+            app.dumpItems();
+
         }
+
+        public void dumpItems() {
+            System.Console.WriteLine("Name, Quality, SellIn");
+            foreach (var item in Items) {
+                System.Console.WriteLine($"{item.Name}, {item.Quality}, {item.SellIn}");
+            }
+        }
+        
+        
 
         public void UpdateQuality() {
             for (var i = 0; i < Items.Count; i++) {
