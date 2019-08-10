@@ -1,13 +1,15 @@
 namespace GildedRose.Console {
-    public abstract class ItemHandler {
+    public class ItemHandler {
         protected readonly Item item;
+
+        private readonly int qualityChange;
         
         public static ItemHandler For(Item item) {
-            if (ItemType.IsConjured(item)) return new RegularItemHandler(item, -2);
-            if (ItemType.IsAgedBrie(item)) return new RegularItemHandler(item, 1);
+            if (ItemType.IsConjured(item)) return new ItemHandler(item, -2);
+            if (ItemType.IsAgedBrie(item)) return new ItemHandler(item, 1);
             if (ItemType.IsSulfuras(item)) return new SulfurasItemHandler(item);
             if (ItemType.IsBackstagePass(item)) return new BackstagePassItemHandler(item);
-            return new RegularItemHandler(item, -1);
+            return new ItemHandler(item, -1);
         }
 
         public void Update() {
@@ -16,8 +18,9 @@ namespace GildedRose.Console {
             UpdateExpiredQuality();
         }
 
-        protected ItemHandler(Item item) {
+        protected ItemHandler(Item item, int qualityChange) {
             this.item = item;
+            this.qualityChange = qualityChange;
         }
 
         protected virtual int MaxQuality() {
@@ -28,8 +31,13 @@ namespace GildedRose.Console {
             return true;
         }
 
-        protected abstract int QualityChange();
-        protected abstract int QualityChangeWhenExpired();
+        protected virtual int QualityChange() {
+            return qualityChange;
+        }
+
+        protected virtual int QualityChangeWhenExpired() {
+            return qualityChange;
+        }
 
         private void UpdateQuality() {
             ChangeQualityBy(QualityChange());

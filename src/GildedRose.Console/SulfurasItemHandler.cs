@@ -1,5 +1,5 @@
 namespace GildedRose.Console {
-    public class SulfurasItemHandler : RegularItemHandler {
+    public class SulfurasItemHandler : ItemHandler {
         public SulfurasItemHandler(Item item) : base(item, 0) { }
 
         protected override int MaxQuality() {
