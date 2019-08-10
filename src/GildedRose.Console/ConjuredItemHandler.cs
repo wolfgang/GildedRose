@@ -1,14 +1,6 @@
 namespace GildedRose.Console {
-    public class ConjuredItemHandler : ItemHandler {
-        public ConjuredItemHandler(Item item) : base(item) { }
-
-        protected override int QualityChange() {
-            return -2;
-        }
-
-        protected override int QualityChangeWhenExpired() {
-            return QualityChange();
-        }
+    public class ConjuredItemHandler : RegularItemHandler {
+        public ConjuredItemHandler(Item item) : base(item, -2) { }
     }
     
 }
