@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices.WindowsRuntime;
+
 namespace GildedRose.Console {
     internal static class ItemRules {
         public static bool decreasesInQuality(Item item) {
@@ -27,20 +29,10 @@ namespace GildedRose.Console {
         }
 
         public static int GetPostSaleQualityChange(Item item) {
-            if (item.Quality == 0) return 0;
-            if (isAgedBrie(item) && item.Quality < 50) return 1;
-            
-            int change = 0;
-            if (!isAgedBrie(item)) {
-                if (!isBackstagePass(item) && !isSulfuras(item)) {
-                    change = -1;
-                }
-                else {
-                    change = -item.Quality;
-                }
-            }
-
-            return change;
+            if (isBackstagePass(item))return -item.Quality;
+            if (item.Quality == 0 || item.Quality >= 50) return 0;
+            if (isAgedBrie(item)) return 1;
+            return -1;
         }
 
         private static bool isAgedBrie(Item item) {
