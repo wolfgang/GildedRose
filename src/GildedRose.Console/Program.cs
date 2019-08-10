@@ -15,7 +15,7 @@ namespace GildedRose.Console {
 
         public void UpdateQuality() {
             foreach (var item in Items) {
-                if (decreasesInQuality(item)) {
+                if (ItemRules.decreasesInQuality(item)) {
                     item.Quality -= 1;
                 }
                 else {
@@ -62,13 +62,6 @@ namespace GildedRose.Console {
                     }
                 }
             }
-        }
-
-        private static bool decreasesInQuality(Item item) {
-            return item.Name != "Aged Brie" &&
-                   !item.Name.StartsWith("Backstage passes") &&
-                   !item.Name.StartsWith("Sulfuras") &&
-                   item.Quality > 0;
         }
 
         public static Program Default(IWriter writer) {
