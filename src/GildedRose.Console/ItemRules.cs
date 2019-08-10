@@ -27,28 +27,27 @@ namespace GildedRose.Console {
         }
 
         public static int GetPostSaleQualityChange(Item item) {
+            if (item.Quality == 0) return 0;
+            if (isAgedBrie(item) && item.Quality < 50) return 1;
+            
             int change = 0;
             if (!isAgedBrie(item)) {
-                if (item.Quality > 0 && !ItemRules.isBackstagePass(item) &&  !ItemRules.isSulfuras(item)) {
+                if (!isBackstagePass(item) && !isSulfuras(item)) {
                     change = -1;
                 }
                 else {
                     change = -item.Quality;
                 }
             }
-            else if (item.Quality < 50) {
-                change = 1;
-            }
 
             return change;
-
         }
 
-        public static bool isAgedBrie(Item item) {
+        private static bool isAgedBrie(Item item) {
             return item.Name == "Aged Brie";
         }
 
-        public static bool isBackstagePass(Item item) {
+        private static bool isBackstagePass(Item item) {
             return item.Name.StartsWith("Backstage passes");
         }
 
