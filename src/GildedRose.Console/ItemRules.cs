@@ -7,8 +7,19 @@ namespace GildedRose.Console {
             
         
         public static int GetPreSaleQualityChange(Item item) {
-            if (decreasesInQuality(item)) return -1;
+            if (decreasesInQuality(item)) return GetQualityDecrease(item);
             return GetQualityIncrease(item);
+        }
+
+        public static int GetPostSaleQualityChange(Item item) {
+            if (isBackstagePass(item)) return -item.Quality;
+            if (item.Quality == MIN_QUALITY || item.Quality >= MAX_QUALITY) return 0;
+            if (isAgedBrie(item)) return 1;
+            return GetQualityDecrease(item);
+        }
+
+        private static int GetQualityDecrease(Item item) {
+            return -1;
         }
 
         private static bool decreasesInQuality(Item item) {
@@ -35,13 +46,6 @@ namespace GildedRose.Console {
             }
 
             return increase;
-        }
-
-        public static int GetPostSaleQualityChange(Item item) {
-            if (isBackstagePass(item)) return -item.Quality;
-            if (item.Quality == MIN_QUALITY || item.Quality >= MAX_QUALITY) return 0;
-            if (isAgedBrie(item)) return 1;
-            return -1;
         }
 
         private static bool isAgedBrie(Item item) {
