@@ -10,17 +10,13 @@ namespace GildedRose.Console {
             for (int day = 0; day < 30; ++day) {
                 app.UpdateQuality();
                 app.dumpItems(day);
-            } 
+            }
         }
 
         public void UpdateQuality() {
             foreach (var item in Items) {
-                if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert") {
-                    if (item.Quality > 0) {
-                        if (item.Name != "Sulfuras, Hand of Ragnaros") {
-                            item.Quality -= 1;
-                        }
-                    }
+                if (decreasesInQuality(item)) {
+                    item.Quality -= 1;
                 }
                 else {
                     if (item.Quality < 50) {
@@ -66,6 +62,13 @@ namespace GildedRose.Console {
                     }
                 }
             }
+        }
+
+        private static bool decreasesInQuality(Item item) {
+            return item.Name != "Aged Brie" &&
+                   !item.Name.StartsWith("Backstage passes") &&
+                   !item.Name.StartsWith("Sulfuras") &&
+                   item.Quality > 0;
         }
 
         public static Program Default(IWriter writer) {
