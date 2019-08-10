@@ -1,14 +1,13 @@
 namespace GildedRose.Console {
-    public class ItemHandler {
+    public abstract class ItemHandler {
         private const int MIN_QUALITY = 0;
         private const int MAX_QUALITY = 50;
 
         public readonly Item item;
 
-        public ItemHandler(Item item) {
+        protected ItemHandler(Item item) {
             this.item = item;
         }
-
 
         public  void ChangeQualityBy(int value) {
             item.Quality += value;
@@ -16,12 +15,9 @@ namespace GildedRose.Console {
             if (!ItemType.IsSulfuras(item) && item.Quality >= 50) item.Quality = 50;
         }
 
-        public virtual int QualityChange() {
-            if (DecreasesInQuality()) return GetQualityDecrease();
-            return GetQualityIncrease();
-        }
+        public abstract int QualityChange();
 
-        public int QualityChangeForExpired() {
+            public int QualityChangeForExpired() {
             if (ItemType.IsBackstagePass(item)) return -item.Quality;
             if (ItemType.IsAgedBrie(item)) return 1;
             return GetQualityDecrease();
@@ -37,7 +33,6 @@ namespace GildedRose.Console {
         }
 
         private  int GetQualityIncrease() {
-            if (ItemType.IsSulfuras(item)) return 0;
             if (!ItemType.IsBackstagePass(item) || item.SellIn >= 11) return 1;
             return item.SellIn < 6 ? 3 : 2;
         }

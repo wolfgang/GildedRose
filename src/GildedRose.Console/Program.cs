@@ -39,7 +39,8 @@ namespace GildedRose.Console {
             if (ItemType.IsConjured(item)) return new ConjuredItemHandler(item);
             if (ItemType.IsSulfuras(item)) return new SulfurasItemHandler(item);
             if (ItemType.IsAgedBrie(item)) return new AgedBrieItemHandler(item);
-            return new ItemHandler(item);
+            if (ItemType.IsBackstagePass(item)) return new BackstagePassItemHandler(item);
+            return new DefaultItemHandler(item);
         }
 
         public void UpdateQuality() {

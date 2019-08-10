@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgedBrieItemHandler.cs" />
+    <Compile Include="BackstagePassItemHandler.cs" />
     <Compile Include="ConjuredItemHandler.cs" />
+    <Compile Include="DefaultItemHandler.cs" />
     <Compile Include="ItemHandler.cs" />
     <Compile Include="ItemType.cs" />
     <Compile Include="IWriter.cs" />
