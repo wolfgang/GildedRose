@@ -7,6 +7,12 @@ namespace GildedRose.Console {
                    item.Quality > 0;
         }
 
+        public static void IncreaseQuality(Item item) {
+            if (item.Quality < 50) {
+                item.Quality += 1;
+            }
+        }
+
         public static bool isAgedBrie(Item item) {
             return item.Name == "Aged Brie";
         }

@@ -24,15 +24,11 @@ namespace GildedRose.Console {
 
                         if (ItemRules.isBackstagePass(item)) {
                             if (item.SellIn < 11) {
-                                if (item.Quality < 50) {
-                                    item.Quality += 1;
-                                }
+                                ItemRules.IncreaseQuality(item);
                             }
 
                             if (item.SellIn < 6) {
-                                if (item.Quality < 50) {
-                                    item.Quality += 1;
-                                }
+                                ItemRules.IncreaseQuality(item);
                             }
                         }
                     }
@@ -52,9 +48,7 @@ namespace GildedRose.Console {
                         }
                     }
                     else {
-                        if (item.Quality < 50) {
-                            item.Quality += 1;
-                        }
+                        ItemRules.IncreaseQuality(item);
                     }
                 }
             }
