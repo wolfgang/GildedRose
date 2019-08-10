@@ -48,7 +48,6 @@
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
         </e>
-        <e p="RegularItemHandler.cs" t="Include" />
         <e p="SulfurasItemHandler.cs" t="Include" />
       </e>
       <e p="src/GildedRose.Tests" t="IncludeRecursive">
