@@ -9,10 +9,14 @@ namespace GildedRose.Console {
         public void ChangeQualityBy(int value) {
             item.Quality += value;
             if (item.Quality < 0) item.Quality = 0;
-            if (!ItemType.IsSulfuras(item) && item.Quality >= 50) item.Quality = 50;
+            if (item.Quality >= MaxQuality()) item.Quality = MaxQuality();
         }
 
         public abstract int QualityChange();
         public abstract int QualityChangeForExpired();
+
+        protected virtual int MaxQuality() {
+            return 50;
+        }
     }
 }
