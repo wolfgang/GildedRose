@@ -15,14 +15,14 @@ namespace GildedRose.Console {
 
         public void UpdateQuality() {
             foreach (var item in Items) {
-                ItemRules.ChangeQualityBy(ItemRules.GetPreSaleQualityChange(item), item);
+                ItemRules.ChangeQualityBy(ItemRules.QualityChangeFor(item), item);
                 
                 if (!ItemRules.IsSulfuras(item)) {
                     item.SellIn -= 1;
                 }
 
                 if (item.SellIn < 0) {
-                    ItemRules.ChangeQualityBy(ItemRules.GetPostSaleQualityChange(item), item);
+                    ItemRules.ChangeQualityBy(ItemRules.QualityChangeForExpired(item), item);
                 }
             }
         }

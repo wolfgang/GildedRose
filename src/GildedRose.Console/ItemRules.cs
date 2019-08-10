@@ -11,12 +11,12 @@ namespace GildedRose.Console {
             if (item.Quality < 0) item.Quality = 0;
         }
 
-        public static int GetPreSaleQualityChange(Item item) {
+        public static int QualityChangeFor(Item item) {
             if (DecreasesInQuality(item)) return GetQualityDecrease(item);
             return GetQualityIncrease(item);
         }
 
-        public static int GetPostSaleQualityChange(Item item) {
+        public static int QualityChangeForExpired(Item item) {
             if (IsBackstagePass(item)) return -item.Quality;
             if (item.Quality == MIN_QUALITY || item.Quality >= MAX_QUALITY) return 0;
             if (IsAgedBrie(item)) return 1;
