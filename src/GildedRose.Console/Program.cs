@@ -36,11 +36,11 @@ namespace GildedRose.Console {
         }
 
         private static ItemHandler ItemHandlerFor(Item item) {
-            if (ItemType.IsConjured(item)) return new ConjuredItemHandler(item);
-            if (ItemType.IsSulfuras(item)) return new SulfurasItemHandler(item);
-            if (ItemType.IsAgedBrie(item)) return new AgedBrieItemHandler(item);
-            if (ItemType.IsBackstagePass(item)) return new BackstagePassItemHandler(item);
-            return new DefaultItemHandler(item);
+            if (ItemType.IsConjured(item)) return ItemHandler.Conjured(item);
+            if (ItemType.IsAgedBrie(item)) return ItemHandler.AgedBrie(item);
+            if (ItemType.IsSulfuras(item)) return ItemHandler.Sulfuras(item);
+            if (ItemType.IsBackstagePass(item)) return ItemHandler.BackstagePass(item);
+            return ItemHandler.Default(item);
         }
 
         public void UpdateQuality() {

@@ -1,6 +1,27 @@
 namespace GildedRose.Console {
     public abstract class ItemHandler {
         protected readonly Item item;
+        
+        
+        public static ItemHandler AgedBrie(Item item) {
+            return new RegularItemHandler(item, 1);
+        }
+        
+        public static ItemHandler Conjured(Item item) {
+            return new RegularItemHandler(item, -2);
+        }
+
+        public static ItemHandler Sulfuras(Item item) {
+            return new SulfurasItemHandler(item);
+        }
+
+        public static ItemHandler BackstagePass(Item item) {
+            return new BackstagePassItemHandler(item);
+        }
+
+        public static ItemHandler Default(Item item) {
+            return new RegularItemHandler(item, -1);
+        }
 
         protected ItemHandler(Item item) {
             this.item = item;
