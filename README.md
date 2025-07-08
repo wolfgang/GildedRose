@@ -12,7 +12,7 @@ This repository is organized from simple to complex examples:
 
 1. **01-simple-macros.rkt** - Basic macro definitions and simple transformations
 2. **02-pattern-matching.rkt** - Using pattern matching in macros for more flexible transformations
-3. **03-syntax-transformers.rkt** - Advanced syntax transformers and compile-time computation
+3. **03-syntax-transformers.rkt** - Advanced syntax transformers, with-syntax, and compile-time computation
 4. **04-hygienic-macros.rkt** - Hygienic macros and identifier handling
 5. **05-complex-macros.rkt** - Complex macro examples including DSLs and advanced patterns
 6. **examples/** - Directory containing usage examples for each macro

@@ -58,6 +58,7 @@ By working through these examples, you'll understand:
 
 **Concepts covered:**
 - Manual syntax transformation with `syntax-case`
+- Using `with-syntax` for computed syntax bindings
 - Compile-time computation and code generation
 - Syntax properties and advanced transformations
 - Generating multiple definitions
@@ -67,6 +68,7 @@ By working through these examples, you'll understand:
 (compile-time-math * 7 8)        ; Compile-time arithmetic
 (with-trace calculation expr)     ; Syntax properties
 (define-accessors person ...)     ; Code generation
+(define-getters person name age)  ; with-syntax identifier generation
 ```
 
 **Time to spend:** 60-90 minutes

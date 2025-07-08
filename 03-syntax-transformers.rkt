@@ -67,32 +67,31 @@
          (printf "Defined ~a with value ~a\n" 'name name))]))
 
 ;; Usage:
-(typed-define x number 42)
+(typed-define my-number number 42)
 (typed-define greeting "Hello, world!")
 
 ;; ========================================================================
 ;; 4. GENERATING MULTIPLE DEFINITIONS
 ;; ========================================================================
 
-;; A macro that generates multiple related functions
+;; A macro that generates multiple related functions with predictable names
 (define-syntax (define-accessors stx)
   (syntax-parse stx
     [(_ struct-name (field-name:id field-index:number) ...)
-     #:with (getter-name ...) (generate-temporaries #'(field-name ...))
-     #:with (setter-name ...) (generate-temporaries #'(field-name ...))
+     #:with (getter-name ...)
+     (map (lambda (f) (format-id stx "~a-~a" #'struct-name f))
+          (syntax->list #'(field-name ...)))
      #'(begin
          (define (getter-name instance)
-           (list-ref instance field-index)) ...
-         (define (setter-name instance new-value)
-           (list-set instance field-index new-value)) ...)]))
+           (list-ref instance field-index)) ...)]))
 
 ;; Usage:
 (define-accessors person (name 1) (age 2) (email 3))
 
 ;; Test the generated accessors
 (define john '(person "John" 30 "john@example.com"))
-(displayln (name john))     ; Extracts name
-(displayln (age john))      ; Extracts age
+(displayln (person-name john))     ; Extracts name
+(displayln (person-age john))      ; Extracts age
 
 ;; ========================================================================
 ;; 5. RECURSIVE SYNTAX TRANSFORMATION
@@ -176,16 +175,16 @@
 ;; 8. MACRO THAT GENERATES MACROS
 ;; ========================================================================
 
-;; A macro that creates other macros
+;; A macro that creates other macros  
 (define-syntax (define-binary-ops stx)
   (syntax-parse stx
     [(_ op-name:id racket-op:id)
-     #'(define-syntax (op-name stx)
-         (syntax-parse stx
-           [(_ a:expr b:expr)
-            #'(racket-op a b)]
-           [(_ a:expr b:expr c:expr ...)
-            #'(racket-op a (op-name b c ...))]))]))
+     #'(define-syntax op-name
+         (syntax-rules ()
+           [(_ a b)
+            (racket-op a b)]
+           [(_ a b c (... ...))
+            (racket-op a (op-name b c (... ...)))]))]))
 
 ;; Generate some binary operation macros
 (define-binary-ops my-add +)
@@ -250,12 +249,161 @@
      #'(let ([result matched-value])
          body ...)]))
 
-;; Usage:
-(match-and-transform (number x) 42
-  (displayln (+ x 10)))
+;; Usage examples (simple validation):
+;; (match-and-transform (number x) 42 (displayln (+ x 10)))
+;; Note: This is a demonstration of advanced pattern matching concepts
 
-(match-and-transform (string s) "hello"
-  (displayln (string-upcase s)))
+;; ========================================================================
+;; 11. WITH-SYNTAX: BINDING COMPUTED SYNTAX
+;; ========================================================================
+
+;; Basic with-syntax usage for binding pattern variables to computed syntax
+(define-syntax (define-getters stx)
+  (syntax-case stx ()
+    [(_ struct-name field ...)
+     (with-syntax ([(getter-name ...)
+                    (map (lambda (f)
+                           (format-id stx "get-~a-~a" #'struct-name f))
+                         (syntax->list #'(field ...)))])
+       #'(begin
+           (define (getter-name data)
+             (printf "Getting ~a from ~a\n" 'field 'struct-name)
+             (hash-ref data 'field)) ...))]))
+
+;; Usage:
+(define-getters person name age email)
+(define sample-data (hash 'name "Alice" 'age 30 'email "alice@example.com"))
+(displayln (get-person-name sample-data))
+
+;; ========================================================================
+;; 12. WITH-SYNTAX AND GENERATE-TEMPORARIES
+;; ========================================================================
+
+;; Using with-syntax with generate-temporaries for fresh identifiers
+(define-syntax (let-fresh stx)
+  (syntax-case stx ()
+    [(_ ([var init] ...) body ...)
+     (with-syntax ([(fresh-var ...)
+                    (generate-temporaries #'(var ...))])
+       #'(let ([fresh-var init] ...)
+           (let-syntax ([var (lambda (stx) #'fresh-var)] ...)
+             body ...)))]))
+
+;; Usage: Creates fresh variables that won't conflict with existing bindings
+(define outer-x 'outer)
+(let-fresh ([inner-x 'inner] [local-y 'local])
+  (printf "Fresh inner-x: ~a, local-y: ~a\n" inner-x local-y))
+
+;; ========================================================================
+;; 13. COMPLEX WITH-SYNTAX: MULTIPLE BINDINGS
+;; ========================================================================
+
+;; Advanced with-syntax with multiple computed bindings - simplified version
+(define-syntax (define-simple-struct stx)
+  (syntax-case stx ()
+    [(_ struct-name field1 field2)
+     (with-syntax ([constructor-name (format-id stx "make-~a" #'struct-name)]
+                   [getter1 (format-id stx "~a-~a" #'struct-name #'field1)]
+                   [getter2 (format-id stx "~a-~a" #'struct-name #'field2)]
+                   [predicate-name (format-id stx "~a?" #'struct-name)])
+       #'(begin
+           ;; Constructor
+           (define (constructor-name val1 val2)
+             (hash 'type 'struct-name 'field1 val1 'field2 val2))
+           
+           ;; Getters
+           (define (getter1 instance)
+             (hash-ref instance 'field1))
+           (define (getter2 instance)
+             (hash-ref instance 'field2))
+           
+           ;; Predicate
+           (define (predicate-name obj)
+             (and (hash? obj) 
+                  (eq? (hash-ref obj 'type #f) 'struct-name)))))]))
+
+;; Usage:
+(define-simple-struct book title author)
+
+(define my-book (make-book "Racket Guide" "PLT"))
+(displayln (book-title my-book))
+(displayln (book? my-book))
+
+;; ========================================================================
+;; 14. WITH-SYNTAX FOR CODE GENERATION PATTERNS
+;; ========================================================================
+
+;; Using with-syntax to generate repetitive code patterns
+(define-syntax (define-math-ops stx)
+  (syntax-case stx ()
+    [(_ base-name)
+     (with-syntax ([(op-name ...)
+                    (map (lambda (op)
+                           (format-id stx "~a-~a" #'base-name op))
+                         '(add sub mul div))]
+                   [(racket-op ...)
+                    (map (lambda (op) 
+                           (case op
+                             [(add) #'+]
+                             [(sub) #'-]
+                             [(mul) #'*]
+                             [(div) #'/]))
+                         '(add sub mul div))])
+       #'(begin
+           (define (op-name a b)
+             (printf "Performing ~a: ~a ~a ~a = " 'racket-op a 'racket-op b)
+             (let ([result (racket-op a b)])
+               (printf "~a\n" result)
+               result)) ...))]))
+
+;; Usage:
+(define-math-ops calc)
+(calc-add 10 5)
+(calc-mul 3 7)
+
+;; ========================================================================
+;; 15. WITH-SYNTAX FOR DSL KEYWORDS
+;; ========================================================================
+
+;; Using with-syntax to handle DSL keyword generation
+(define-syntax (define-config stx)
+  (syntax-case stx ()
+    [(_ config-name (key default-value) ...)
+     (with-syntax ([config-hash-name (format-id stx "~a-config" #'config-name)]
+                   [show-func-name (format-id stx "show-~a" #'config-name)]
+                   [(getter-name ...)
+                    (map (lambda (k) (format-id stx "get-~a" k))
+                         (syntax->list #'(key ...)))]
+                   [(setter-name ...)
+                    (map (lambda (k) (format-id stx "set-~a!" k))
+                         (syntax->list #'(key ...)))])
+       #'(begin
+           ;; Initialize config hash
+           (define config-hash-name
+             (make-hash (list (cons 'key default-value) ...)))
+           
+           ;; Getters
+           (define (getter-name)
+             (hash-ref config-hash-name 'key)) ...
+           
+           ;; Setters  
+           (define (setter-name new-value)
+             (hash-set! config-hash-name 'key new-value)) ...
+           
+           ;; Show config
+           (define (show-func-name)
+             (printf "Configuration ~a:\n" 'config-name)
+             (printf "  ~a: ~a\n" 'key (getter-name)) ...)))]))
+
+;; Usage:
+(define-config database 
+  (host "localhost") 
+  (port 5432) 
+  (username "admin"))
+
+(show-database)
+(set-host! "production.db.com")
+(printf "Updated host: ~a\n" (get-host))
 
 ;; ========================================================================
 ;; DEMONSTRATION FUNCTION
@@ -272,7 +420,7 @@
   
   (displayln "\n3. Generated accessors:")
   (define sample-person '(person "Alice" 25 "alice@example.com"))
-  (printf "  Name: ~a, Age: ~a\n" (name sample-person) (age sample-person))
+  (printf "  Name: ~a, Age: ~a\n" (person-name sample-person) (person-age sample-person))
   
   (displayln "\n4. Nested expression transformation:")
   (printf "  Transformed: ~a\n" (transform-nested (+ 5 (* 3 2))))
@@ -287,6 +435,12 @@
   (displayln "\n7. Generated binary operations:")
   (printf "  Custom add 1+2+3: ~a\n" (my-add 1 2 3))
   (printf "  Custom multiply 2*3*4: ~a\n" (my-mul 2 3 4))
+  
+  (displayln "\n8. With-syntax examples:")
+  (printf "  Generated getter: ~a\n" (get-person-name sample-data))
+  (printf "  Generated book struct: ~a\n" (book-title my-book))
+  (calc-add 15 25)
+  (printf "  Configuration: host=~a, port=~a\n" (get-host) (get-port))
   
   (displayln "\nSyntax transformers demo complete!"))
 
