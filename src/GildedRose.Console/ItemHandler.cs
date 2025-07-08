@@ -5,7 +5,7 @@ namespace GildedRose.Console {
         private readonly int qualityChange;
         
         public static ItemHandler For(Item item) {
-            if (ItemType.IsConjured(item)) return new ItemHandler(item, -2);
+            if (ItemType.IsConjured(item)) return new ConjuredItemHandler(item);
             if (ItemType.IsAgedBrie(item)) return new ItemHandler(item, 1);
             if (ItemType.IsSulfuras(item)) return new SulfurasItemHandler(item);
             if (ItemType.IsBackstagePass(item)) return new BackstagePassItemHandler(item);
@@ -51,7 +51,7 @@ namespace GildedRose.Console {
         private void ChangeQualityBy(int value) {
             item.Quality += value;
             if (item.Quality < 0) item.Quality = 0;
-            if (item.Quality >= MaxQuality()) item.Quality = MaxQuality();
+            if (item.Quality > MaxQuality()) item.Quality = MaxQuality();
         }
     }
 }
