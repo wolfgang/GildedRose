@@ -178,16 +178,19 @@
 (define-syntax list-process
   (syntax-rules (head tail empty single pair)
     [(_ lst empty action)
-     (if (null? lst) action)]
+     (if (null? lst) action (void))]
     [(_ lst single action)
      (if (and (pair? lst) (null? (cdr lst)))
-         (let ([head (car lst)]) action))]
+         (let ([head (car lst)]) action)
+         (void))]
     [(_ lst pair action)
      (if (and (pair? lst) (pair? (cdr lst)) (null? (cddr lst)))
-         (let ([first (car lst)] [second (cadr lst)]) action))]
+         (let ([first (car lst)] [second (cadr lst)]) action)
+         (void))]
     [(_ lst [head tail] action)
      (if (pair? lst)
-         (let ([head (car lst)] [tail (cdr lst)]) action))]))
+         (let ([head (car lst)] [tail (cdr lst)]) action)
+         (void))]))
 
 ;; ========================================================================
 ;; 8. PATTERN-BASED DSL CREATION
